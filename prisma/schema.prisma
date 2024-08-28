@@ -13,10 +13,12 @@ model User {
   email         String?         @unique
   emailVerified DateTime?
   image         String?
+  plan          String?         @default("free")
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  sites         Site[]
+  posts         Post[]
+  comments      Comments[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,18 +64,53 @@ model VerificationToken {
  
   @@unique([identifier, token])
 }
- 
-// Optional for WebAuthn support
-model Authenticator {
-  id                   String  @id @default(cuid())
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+model Site {
+  id        String    @id @default(cuid())
+  name      String
+  url       String?   @unique
+  description String?
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  posts     Post[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Post {
+  id        String    @id @default(cuid())
+  imageUrl  String?
+  title     String
+  content   String 
+  slug      String  @unique
+  views     Int     @default(0)
+  published Boolean   @default(false)
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  siteId    String
+  site      Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  comments Comments[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Comments{
+  id        String    @id @default(cuid())
+  content   String
+
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
