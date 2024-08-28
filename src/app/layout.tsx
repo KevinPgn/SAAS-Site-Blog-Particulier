@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="mytheme">
+    <html lang="en" data-theme="light">
       <body className={`${GeistSans.className} ${GeistMono.className}`}>
         <SessionProvider>
           {children}
