@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { Authentication } from "./Authentication"
+import { ThemeController } from "./ThemeController"
 
 export const Headers = () => {
   return <header className="max-w-[1500px] mx-auto h-16">
@@ -7,6 +9,11 @@ export const Headers = () => {
           <img src="/logo.svg" loading="lazy" alt="logo svg site" className="w-10 h-10" />
           <h1 className="text-3xl font-extrabold">Blog<span className="text-blue-500">Creator</span></h1>
         </Link>
+
+        <div className="flex items-center gap-5">
+          <ThemeController />
+          <Authentication />
+        </div>  
     </nav>
   </header>
 }
