@@ -117,14 +117,25 @@ model Comments{
 export const createNewSite = authenticatedAction
   .schema(z.object({
     name: z.string().min(3).max(50),
-    description: z.string().min(3).max(50),
-    imageUrl: z.string().min(3).max(50),
+    description: z.string().min(3).max(100),
+    imageUrl: z.string()
   }))
   .action(async ({parsedInput: {name, description, imageUrl}, ctx:{userId}}) => {
+    const url = name.toLowerCase().replace(/[ /]/g, "-");
+    
+    // Check if a site with the same URL already exists
+    const existingSite = await prisma.site.findUnique({
+      where: { url }
+    });
+
+    if (existingSite) {
+      throw new Error("A site with this name already exists. Please choose a different name.");
+    }
+
     await prisma.site.create({
       data: {
         name,
-        url: name.toLowerCase().replace(/[ /]/g, "-"),
+        url,
         description,
         imageUrl,
         authorId: userId

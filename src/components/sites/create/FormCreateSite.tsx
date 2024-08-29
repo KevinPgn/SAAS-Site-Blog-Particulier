@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { createNewSite } from "@/server/Actions"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export const FormCreateSite = () => {
 
@@ -15,8 +17,9 @@ export const FormCreateSite = () => {
 
     try{
         await createNewSite({name, description, imageUrl})
+        toast.success("Site created successfully")
     }catch(error){
-        console.log(error)
+        toast.error("Error creating site")
     }
   }
 
@@ -43,5 +46,7 @@ export const FormCreateSite = () => {
 
         <Button variant="blue" className="w-fit px-5 py-2 mt-5" type="submit">Create Site</Button>
     </form>
+
+    <ToastContainer />
   </div>
 }
