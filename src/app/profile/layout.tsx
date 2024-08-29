@@ -19,7 +19,7 @@ export default async function ProfileLayout({
     return <div>
         <Auth>
             <EnTeteProfile />
-            <div className="flex-1" style={{height: calcHeight}}>
+            <div className="flex" style={{height: calcHeight}}>
                 <SidebarProfile />
                 {children}
             </div>
