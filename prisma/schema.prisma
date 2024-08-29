@@ -70,6 +70,7 @@ model Site {
   name      String
   url       String?   @unique
   description String?
+  imageUrl    String?
 
   authorId  String
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
