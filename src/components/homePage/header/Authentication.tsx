@@ -2,10 +2,11 @@
 import { Button } from "@/components/ui/button"
 import { useSession, signIn, signOut } from "next-auth/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-  
+import { useRouter } from "next/navigation"
 export const Authentication = () => {
   const { data: session } = useSession()
-  
+  const router = useRouter()
+
   return <>
     {!session ? (
         <div className="flex items-center gap-4">
@@ -19,8 +20,8 @@ export const Authentication = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/profile/dashboard")}>Profile</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/profile/pricing")}>Subscription</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>Sign out</DropdownMenuItem>
             </DropdownMenuContent>
