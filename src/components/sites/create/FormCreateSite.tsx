@@ -2,12 +2,28 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { createNewSite } from "@/server/Actions"
 
 export const FormCreateSite = () => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const name = formData.get("name") as string
+    const description = formData.get("description") as string
+    const imageUrl = formData.get("imageUrl") as string
+
+    try{
+        await createNewSite({name, description, imageUrl})
+    }catch(error){
+        console.log(error)
+    }
+  }
+
   return <div className="w-[500px] border mt-20 border-gray-200 rounded-md mx-auto p-5">
     <h2 className="text-2xl font-extrabold mb-2">Create Site</h2>
     <span className="text-md text-gray-500">Create your Site here. Click the button below one your done...</span>
-    <form className="flex flex-col gap-5 mt-5">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-5">
         <div className="flex flex-col gap-1">
             <label htmlFor="name" className="text-md font-medium">Site name <span className="text-red-500">*</span>
             <span className="text-xs ml-2 text-gray-500">(The site name will be the url)</span>
