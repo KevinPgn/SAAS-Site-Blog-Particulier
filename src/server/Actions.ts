@@ -2,6 +2,8 @@
 import prisma from "@/lib/prisma"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 /*
 model User {
   id            String          @id @default(cuid())
@@ -112,3 +114,26 @@ model Comments{
 }
 */
 
+export const createNewSite = authenticatedAction
+  .schema(z.object({
+    name: z.string().min(3).max(50),
+    url: z.string().min(3).max(50), // url must be unique, url need bc we want to redirect the user to the site
+    description: z.string().min(3).max(50),
+    imageUrl: z.string().min(3).max(50),
+  }))
+  .action(async ({parsedInput: {name, url, description, imageUrl}, ctx:{userId}}) => {
+    await prisma.site.create({
+      data: {
+        name,
+        url,
+        description,
+        imageUrl,
+        authorId: userId
+      }
+    })
+
+    revalidatePath("/profile/dashboard")
+    redirect("/profile/dashboard")
+  })
+
+  
