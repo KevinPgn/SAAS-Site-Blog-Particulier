@@ -117,15 +117,14 @@ model Comments{
 export const createNewSite = authenticatedAction
   .schema(z.object({
     name: z.string().min(3).max(50),
-    url: z.string().min(3).max(50), // url must be unique, url need bc we want to redirect the user to the site
     description: z.string().min(3).max(50),
     imageUrl: z.string().min(3).max(50),
   }))
-  .action(async ({parsedInput: {name, url, description, imageUrl}, ctx:{userId}}) => {
+  .action(async ({parsedInput: {name, description, imageUrl}, ctx:{userId}}) => {
     await prisma.site.create({
       data: {
         name,
-        url,
+        url: name.toLowerCase().replace(/[ /]/g, "-"),
         description,
         imageUrl,
         authorId: userId
@@ -136,4 +135,3 @@ export const createNewSite = authenticatedAction
     redirect("/profile/dashboard")
   })
 
-  
