@@ -1,7 +1,24 @@
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react"
 
-export const Dashboard = () => {
+export const Dashboard = ({ sites }: { sites: any }) => {
+  if(sites.length === 0) return <main className="p-4 w-full">
+    <div className="flex items-center justify-between px-2">
+        <h2 className="text-2xl font-bold">Your Sites</h2>
+        <Button variant="blue" className="gap-2 font-semibold">
+            <Plus size={20} />
+            <span>Create Site</span>
+        </Button>
+    </div>
+
+    <div className="flex items-center justify-center h-full">
+        <div className="flex flex-col items-center justify-center">
+            <span>No sites found</span>
+            <span>Create your first site</span>
+        </div>
+    </div>
+  </main>
+  
   return <main className="p-4 w-full">
     <div className="flex items-center justify-between px-2">
         <h2 className="text-2xl font-bold">Your Sites</h2>
