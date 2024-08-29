@@ -167,7 +167,7 @@ export const createNewPost = authenticatedAction
   .action(async ({parsedInput: {title, content, imageUrl, siteId, published}, ctx:{userId}}) => {
     const session = await auth()
     const user = session?.user as UserProps
-    
+
     const site = await prisma.site.findUnique({
       where: { id: siteId }
     });
@@ -214,4 +214,29 @@ export const createNewPost = authenticatedAction
     revalidatePath(`/site/${site.url}`)
     redirect(`/site/${site.url}`)
   })
-    
+
+export const createNewComment = authenticatedAction
+  .schema(z.object({
+    postId: z.string(),
+    content: z.string().min(3).max(100),
+  }))
+  .action(async ({parsedInput: {postId, content}, ctx:{userId}}) => {
+    const post = await prisma.post.findUnique({
+      where: { id: postId }
+    });
+
+    if(!post){
+      throw new Error("Post not found");
+    }
+
+    await prisma.comments.create({
+      data: {
+        content,
+        postId,
+        authorId: userId
+      }
+    })
+
+    revalidatePath(`/site/${post.siteId}`)
+    redirect(`/site/${post.siteId}`)
+  })
