@@ -155,3 +155,63 @@ export const createNewSite = authenticatedAction
     redirect("/profile/dashboard")
   })
 
+// Create new post for the site, but, the user must be the author of the site
+export const createNewPost = authenticatedAction
+  .schema(z.object({
+    siteId: z.string(),
+    title: z.string().min(3).max(50),
+    content: z.string().min(3).max(100),
+    imageUrl: z.string(),
+    published: z.boolean().optional()
+  }))
+  .action(async ({parsedInput: {title, content, imageUrl, siteId, published}, ctx:{userId}}) => {
+    const session = await auth()
+    const user = session?.user as UserProps
+    
+    const site = await prisma.site.findUnique({
+      where: { id: siteId }
+    });
+
+    if(!site){
+      throw new Error("Site not found");
+    }
+
+    if(site.authorId !== userId){
+      throw new Error("You are not the author of this site");
+    }
+
+    const slug = title.toLowerCase().replace(/[ /]/g, "-");
+
+    const existingPostInSite = await prisma.post.findUnique({
+      where: { slug, siteId }
+    });
+
+    if(existingPostInSite){
+      throw new Error("A post with this title already exists. Please choose a different title.");
+    }
+
+    // The creator of the site, can create 10 posts in free plan and 100 in premium plan
+
+    if(user?.plan === false && user.posts.length >= 10){
+      throw new Error("You can't create more than 10 posts in free plan.");
+    }
+    if(user?.plan === true && user.posts.length >= 100){
+      throw new Error("You can't create more than 100 posts in premium plan.");
+    }
+
+    await prisma.post.create({
+      data: {
+        title,
+        content,
+        imageUrl,
+        slug,
+        published,
+        authorId: userId,
+        siteId
+      }
+    })
+
+    revalidatePath(`/site/${site.url}`)
+    redirect(`/site/${site.url}`)
+  })
+    
