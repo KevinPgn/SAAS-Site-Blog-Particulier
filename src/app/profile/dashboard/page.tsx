@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma'
 
 const DashboardPage = async () => {
   return (
-    <section className='w-full flex-1'>
+    <section className='w-full overflow-auto flex-1'>
       <Dashboard />
     </section>
   )
