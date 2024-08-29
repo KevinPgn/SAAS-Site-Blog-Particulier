@@ -6,4 +6,5 @@ export interface UserProps{
     email: string
     image: string
     plan: boolean
+    sites: any
 }

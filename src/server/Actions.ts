@@ -4,6 +4,8 @@ import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
+import { UserProps } from "@/lib/types"
 /*
 model User {
   id            String          @id @default(cuid())
@@ -122,7 +124,14 @@ export const createNewSite = authenticatedAction
   }))
   .action(async ({parsedInput: {name, description, imageUrl}, ctx:{userId}}) => {
     const url = name.toLowerCase().replace(/[ /]/g, "-");
-    
+    const session = await auth()
+    const user = session?.user as UserProps
+
+    // if the user plan is false, he can't create more than 1 site
+    if(user.plan !== false && user.sites.length >= 1){
+      throw new Error("You can't create more than 1 site.");
+    }
+
     // Check if a site with the same URL already exists
     const existingSite = await prisma.site.findUnique({
       where: { url }

@@ -20,10 +20,7 @@ export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPo
   return <main className="p-4 w-full">
     <div className="flex items-center justify-between px-2">
         <h2 className="text-2xl font-bold">Your Sites</h2>
-        <Button variant="blue" className="gap-2 font-semibold">
-            <Plus size={20} />
-            <span>Create Site</span>
-        </Button>
+        <BtnCreateSite />
     </div>
 
     <div className="mt-4 flex max-xl:justify-center flex-wrap gap-5">
