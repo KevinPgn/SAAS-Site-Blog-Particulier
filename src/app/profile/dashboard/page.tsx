@@ -24,9 +24,21 @@ const DashboardPage = async () => {
     }
   })
 
+  const getRecentsPosts = await prisma.post.findMany({
+    where: {
+      site: {
+        authorId: userId
+      }
+    },
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 5
+  })
+
   return (
     <section className='w-full overflow-auto flex-1'>
-      <Dashboard sites={sites} />
+      <Dashboard sites={sites} getRecentsPosts={getRecentsPosts} />
     </section>
   )
 }

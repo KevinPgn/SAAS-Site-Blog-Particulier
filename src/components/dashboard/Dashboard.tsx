@@ -2,7 +2,7 @@ import { BtnCreateSite } from "../sites/BtnCreateSite"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react"
 
-export const Dashboard = ({ sites }: { sites: any }) => {
+export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPosts: any }) => {
   if(sites.length === 0) return <main className="p-4 w-full">
     <div className="flex items-center justify-between px-2">
         <h2 className="text-2xl font-bold">Your Sites</h2>
