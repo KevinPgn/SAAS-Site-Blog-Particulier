@@ -29,7 +29,7 @@ export const PricingSection = () => {
           <span className="absolute top-4 right-4 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Most popular</span>
           <h3 className="text-2xl font-bold mb-2 text-blue-500">Startup</h3>
           <p className="text-gray-600 mb-4">The best pricing plan for professionals.</p>
-          <div className="text-4xl font-bold mb-6">$29</div>
+          <div className="text-4xl font-bold mb-6">$29 / month</div>
           <ul className="space-y-2 mb-8">
             <li className="flex items-center"><span className="text-blue-500 mr-2">✓</span> Unlimited Sites</li>
             <li className="flex items-center"><span className="text-blue-500 mr-2">✓</span> Unlimited Posts</li>
