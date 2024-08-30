@@ -3,6 +3,7 @@ import { Ellipsis } from "lucide-react"
 import { deletePost } from "@/server/Actions"
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator} from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
+import { publishPost } from "@/server/Actions"
 
 export const Ellipsiss = ({ postId, siteId }: { postId: string, siteId: string }) => {
   const router = useRouter()
@@ -14,6 +15,7 @@ export const Ellipsiss = ({ postId, siteId }: { postId: string, siteId: string }
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push(`/profile/dashboard/${siteId}/edit/${postId}`)}>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => publishPost({ postId, siteId })}>Publish</DropdownMenuItem>
         <DropdownMenuItem onClick={() => deletePost({ postId, siteId })}>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
