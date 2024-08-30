@@ -1,6 +1,7 @@
 import { BtnCreateSite } from "../sites/BtnCreateSite"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react"
+import { BtnViewArticleDashboard } from "./BtnViewArticleDashboard"
 
 export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPosts: any }) => {
   if(sites.length === 0) return <main className="p-4 w-full">
@@ -30,7 +31,7 @@ export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPo
                 <div className="p-4 py-6 px-7">
                     <h2 className="text-2xl font-bold">{site.name}</h2>
                     <p className="text-gray-500 mt-2">{site.description}</p>
-                    <Button variant="blue" className="mt-4 w-full">View Articles</Button>
+                    <BtnViewArticleDashboard siteId={site.id} />
                 </div>
             </div>
         ))}
