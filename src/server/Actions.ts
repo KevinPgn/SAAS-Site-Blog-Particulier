@@ -270,3 +270,44 @@ export const deletePost = authenticatedAction
     revalidatePath(`/profile/dashboard/${siteId}`);
     redirect(`/profile/dashboard/${siteId}`);
   });
+
+export const editPost = authenticatedAction
+  .schema(z.object({
+    postId: z.string(),
+    siteId: z.string(),
+    title: z.string().optional(),
+    content: z.string().optional(),
+    imageUrl: z.string().optional(),
+    published: z.boolean().optional(),
+  }))
+  .action(async ({ parsedInput: { postId, siteId, title, content, imageUrl, published }, ctx: { userId } }) => {
+    const post = await prisma.post.findUnique({
+      where: { id: postId, authorId: userId },
+      include: { site: {
+        include: {
+          author: true
+        }
+      }},
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    if (post.site.authorId !== userId) {
+      throw new Error("You don't have permission to edit this post");
+    }
+
+    await prisma.post.update({
+      where: { id: postId },
+      data: {
+        title,
+        content,
+        imageUrl,
+        published,
+      },
+    });
+
+    revalidatePath(`/profile/dashboard/${siteId}`);
+    redirect(`/profile/dashboard/${siteId}`);
+  });
