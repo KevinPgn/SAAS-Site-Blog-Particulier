@@ -211,8 +211,7 @@ export const createNewPost = authenticatedAction
       }
     })
 
-    revalidatePath(`/site/${site.url}`)
-    redirect(`/site/${site.url}`)
+    revalidatePath(`/profile/dashboard/${siteId}`)
   })
 
 export const createNewComment = authenticatedAction
