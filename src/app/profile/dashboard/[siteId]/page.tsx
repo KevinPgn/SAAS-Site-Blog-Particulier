@@ -18,6 +18,7 @@ const SiteDashboardPage = async ({ params }: SiteDashboardPageProps) => {
       authorId: userId
     },
     select: {
+        id: true,
         posts: {
             select:{
                 id: true,
