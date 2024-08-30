@@ -24,6 +24,7 @@ const SiteDashboardPage = async ({ params }: SiteDashboardPageProps) => {
                 title: true,
                 published: true,
                 createdAt: true,
+                imageUrl: true,
             },
             orderBy: {
                 createdAt: 'desc'
