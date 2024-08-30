@@ -1,5 +1,6 @@
 import { ArticlesBtn } from "./ArticlesBtn"
 import { Ellipsis } from "lucide-react"
+import { Ellipsiss } from "./Ellipsis"
 
 export const SideDetails = ({site}: {site: any}) => {
   const posts = site?.posts
@@ -37,7 +38,7 @@ export const SideDetails = ({site}: {site: any}) => {
                   {new Date(post.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-2">
-                  <button className="text-gray-500"><Ellipsis size={18} /></button>
+                  <Ellipsiss postId={post.id} siteId={site.id}/>
                 </td>
               </tr>
             ))}

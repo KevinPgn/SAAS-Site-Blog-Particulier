@@ -239,3 +239,34 @@ export const createNewComment = authenticatedAction
     revalidatePath(`/site/${post.siteId}`)
     redirect(`/site/${post.siteId}`)
   })
+
+export const deletePost = authenticatedAction
+  .schema(z.object({
+    postId: z.string(),
+    siteId: z.string(),
+  }))
+  .action(async ({ parsedInput: { postId, siteId }, ctx: { userId } }) => {
+    const post = await prisma.post.findUnique({
+      where: { id: postId, authorId: userId },
+      include: { site: {
+        include: {
+          author: true
+        }
+      }},
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    if (post.site.authorId !== userId) {
+      throw new Error("You don't have permission to delete this post");
+    }
+
+    await prisma.post.delete({
+      where: { id: postId },
+    });
+
+    revalidatePath(`/profile/dashboard/${siteId}`);
+    redirect(`/profile/dashboard/${siteId}`);
+  });
