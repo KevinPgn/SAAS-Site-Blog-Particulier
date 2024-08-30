@@ -162,7 +162,7 @@ export const createNewPost = authenticatedAction
     title: z.string().min(3).max(50),
     content: z.string().min(3).max(100),
     imageUrl: z.string(),
-    published: z.boolean().optional()
+    published: z.boolean()
   }))
   .action(async ({parsedInput: {title, content, imageUrl, siteId, published}, ctx:{userId}}) => {
     const session = await auth()

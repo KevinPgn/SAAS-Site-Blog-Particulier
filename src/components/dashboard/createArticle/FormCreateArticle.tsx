@@ -15,10 +15,11 @@ export const FormCreateArticle = ({siteId}: {siteId: string}) => {
   const router = useRouter()
   const {register, handleSubmit, formState: {errors}} = useForm()
   const [content, setContent] = useState('')
+  const [published, setPublished] = useState(false)
 
   const onSubmit = async (data: any) => {
     try {
-      await createNewPost({...data, siteId, content})
+      await createNewPost({...data, content, siteId, published})
       toast.success('Article created successfully')
       router.push(`/profile/dashboard/${siteId}`)
     } catch (error) {
@@ -34,25 +35,30 @@ export const FormCreateArticle = ({siteId}: {siteId: string}) => {
     <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-2 mt-3">
             <label htmlFor="title" className="text-sm font-semibold">Title</label>
-            <Input {...register('title')} placeholder="Title" />
+            <Input {...register('title')} required placeholder="Title" />
+            {errors.title && <span className="text-red-500">This field is required</span>}
         </div>
         <div className="flex flex-col gap-2 mt-3 mb-16">
             <label htmlFor="content" className="text-sm font-semibold">Content</label>
             <Editor value={content} onChange={setContent} />
+            {errors.content && <span className="text-red-500">This field is required</span>}
         </div>
         <div className="flex flex-col gap-2 mt-3">
             <label htmlFor="imageUrl" className="text-sm font-semibold">Image URL</label>
-            <Input {...register('imageUrl')} placeholder="Image URL" />
+            <Input {...register('imageUrl')} required placeholder="Image URL" />
+            {errors.imageUrl && <span className="text-red-500">This field is required</span>}
         </div>
         <div className="flex flex-col gap-2 mt-3">
             <label htmlFor="published" className="text-sm font-semibold">Published</label>
-            <Select>
-                <SelectTrigger>
-                    <SelectValue placeholder="Select a published" />
+            <Select
+            onValueChange={(value) => setPublished(value === 'true')}
+            {...register('published')}>
+                <SelectTrigger className="text-black">
+                    <SelectValue placeholder="Publish now?" className="text-black" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
+                    <SelectItem value="true">Yes</SelectItem>
+                    <SelectItem value="false">No</SelectItem>
                 </SelectContent>
             </Select>
         </div>
