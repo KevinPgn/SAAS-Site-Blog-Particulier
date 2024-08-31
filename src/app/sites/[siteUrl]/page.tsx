@@ -16,12 +16,14 @@ const SiteUrlPage = async ({ params }: SiteUrlPageProps) => {
       url: siteUrl,
     },
     select: {
+        url: true,
         name: true,
         posts: {
             where: {
                 published: true
             },
             select: {
+                id: true,
                 title: true,
                 content: true,
                 imageUrl: true,

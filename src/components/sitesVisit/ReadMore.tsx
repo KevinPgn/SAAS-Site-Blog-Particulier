@@ -7,6 +7,6 @@ export const ReadMore = ({ siteUrl, postId }: { siteUrl: string, postId: string 
   return <>
     <Button
     onClick={() => router.push(`/sites/${siteUrl}/${postId}`)}
-    className="mt-5">Read More</Button>
+    className="mt-5 w-full">Read More</Button>
   </>
 }
