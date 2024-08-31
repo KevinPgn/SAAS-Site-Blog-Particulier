@@ -19,8 +19,8 @@ const PagePostDetails = async ({ params }: PagePostDetailsProps) => {
   })
 
     return (
-    <section className='max-w-[1400px] mx-auto mt-2'>
-        <Article />
+    <section className='max-w-[1000px] mx-auto mt-2'>
+        <Article post={post} />
     </section>
   )
 }
