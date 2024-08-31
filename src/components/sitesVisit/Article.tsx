@@ -1,6 +1,7 @@
 import { BackRouter } from "./BackRouter"
+import { CommentForm } from "./CommentForm"
 
-export const Article = ({ post }: { post: any }) => {
+export const Article = ({ post, session }: { post: any, session: any }) => {
   return <>
     <BackRouter />
 
@@ -14,6 +15,8 @@ export const Article = ({ post }: { post: any }) => {
         dangerouslySetInnerHTML={{ __html: post.content }}
         className="text-md [&_h2]:text-2xl [&_h1]:text-2xl mb-7 [&_h1]:font-extrabold [&_h2]:font-bold [&_p]:text-md [&_a]:text-blue-500 [&_a]:underline mt-5"
         ></div>
+
+        {session ? <CommentForm postId={post.id} /> : <div className="text-md text-gray-500 text-center">You need to login to comment</div>}
     </div>
   </>
 }
