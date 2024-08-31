@@ -17,6 +17,13 @@ const PagePostDetails = async ({ params }: PagePostDetailsProps) => {
   const post = await prisma.post.findUnique({
     where: {
         id: postId,
+    },
+    include: {
+        comments: {
+            include: {
+                author: true
+            }
+        }
     }
   })
 

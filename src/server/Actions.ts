@@ -217,11 +217,18 @@ export const createNewPost = authenticatedAction
 export const createNewComment = authenticatedAction
   .schema(z.object({
     postId: z.string(),
-    content: z.string().min(3).max(100),
+    content: z.string().min(3).max(500),
   }))
   .action(async ({parsedInput: {postId, content}, ctx:{userId}}) => {
     const post = await prisma.post.findUnique({
-      where: { id: postId }
+      where: { id: postId },
+      include: {
+        site: {
+          select: {
+            url: true
+          }
+        }
+      }
     });
 
     if(!post){
@@ -236,8 +243,8 @@ export const createNewComment = authenticatedAction
       }
     })
 
-    revalidatePath(`/site/${post.siteId}`)
-    redirect(`/site/${post.siteId}`)
+    revalidatePath(`/sites/${post.site.url}/${post.id}`)
+    redirect(`/sites/${post.site.url}/${post.id}`)
   })
 
 export const deletePost = authenticatedAction

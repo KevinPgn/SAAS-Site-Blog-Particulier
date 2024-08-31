@@ -18,5 +18,18 @@ export const Article = ({ post, session }: { post: any, session: any }) => {
 
         {session ? <CommentForm postId={post.id} /> : <div className="text-md text-gray-500 text-center">You need to login to comment</div>}
     </div>
+
+    <div className="flex flex-col gap-5 items-center justify-center mb-3">
+        <h1 className="text-5xl font-bold">Comments</h1>
+        {post.comments.map((comment: any) => (
+            <div key={comment.id} className="flex bg-gray-100 p-3 rounded-lg w-full flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    <img src={comment.author.image} alt={comment.author.name} className="w-10 h-10 rounded-full" />
+                    <span className="text-md text-gray-500">{comment.author.name}</span>
+                </div>
+                <p className="text-md text-black">{comment.content}</p>
+            </div>
+        ))}
+    </div>
   </>
 }
