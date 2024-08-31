@@ -1,5 +1,5 @@
-import { Button } from "../ui/button"
 import { BtnCreateSite } from "./BtnCreateSite"
+import { ViewArticle } from "./ViewArticle"
 
 export const Sites = ({ sites }: { sites: any }) => {
   if(sites.length === 0) return <div className="w-full">
@@ -25,7 +25,7 @@ export const Sites = ({ sites }: { sites: any }) => {
                 <div className="p-4 py-6 px-7">
                     <h2 className="text-2xl font-bold">{site.name}</h2>
                     <p className="text-gray-500 mt-2">{site.description}</p>
-                    <Button variant="blue" className="mt-4 w-full">View Articles</Button>
+                    <ViewArticle siteUrl={site.url} />
                 </div>
             </div>
         ))}
