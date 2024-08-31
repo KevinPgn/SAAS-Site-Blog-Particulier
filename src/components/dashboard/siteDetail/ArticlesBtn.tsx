@@ -10,7 +10,9 @@ export const ArticlesBtn = ({siteId, siteUrl}: {siteId: string, siteUrl: string}
         <Button variant='outline'
         onClick={() => router.push(`/sites/${siteUrl}`)}
         className="gap-2 text-black"><ExternalLink size={18} /> View Blog</Button>
-        <Button variant='outline' className="gap-2 text-black"><Settings size={18} /> Settings</Button>
+        <Button variant='outline'
+        onClick={() => router.push(`/profile/dashboard/${siteId}/settings`)}
+        className="gap-2 text-black"><Settings size={18} /> Settings</Button>
         <Button 
         onClick={() => router.push(`/profile/dashboard/${siteId}/create`)}
         variant='blue' className="gap-2"><Plus size={18} /> Create Article</Button>

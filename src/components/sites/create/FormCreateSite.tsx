@@ -16,8 +16,9 @@ export const FormCreateSite = () => {
     const imageUrl = formData.get("imageUrl") as string
 
     try{
-        await createNewSite({name, description, imageUrl})
+        const site = await createNewSite({name, description, imageUrl})
         toast.success("Site created successfully")
+        console.log(site)
     }catch(error){
         toast.error("Error creating site")
     }

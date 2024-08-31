@@ -139,9 +139,9 @@ export const createNewSite = authenticatedAction
     const session = await auth()
     const user = session?.user as UserProps
 
-    // if the user plan is false, he can't create more than 1 site
-    if(user.plan !== false && user.sites.length >= 1){
-      throw new Error("You can't create more than 1 site.");
+    // if the user plan is free, he can't create more than 1 site
+    if(user?.plan === false && user.sites.length >= 1){
+      throw new Error("You can't create more than 1 site in free plan.");
     }
 
     // Check if a site with the same URL already exists
@@ -380,3 +380,28 @@ export const subscribeToSite = authenticatedAction
     revalidatePath(`/profile/dashboard/${siteId}`);
     redirect(`/profile/dashboard/${siteId}`);
   });
+
+export const deleteSite = authenticatedAction
+ .schema(z.object({
+  siteId: z.string(),
+ }))
+ .action(async ({ parsedInput: { siteId }, ctx: { userId } }) => {
+  const site = await prisma.site.findUnique({
+    where: { id: siteId, authorId: userId },
+  });
+
+  if (!site) {
+    throw new Error("Site not found");
+  }
+
+  if (site.authorId !== userId) {
+    throw new Error("You don't have permission to delete this site");
+  }
+
+  await prisma.site.delete({
+    where: { id: siteId },
+  });
+
+  revalidatePath(`/profile/dashboard`);
+  redirect(`/profile/dashboard`);
+ });
