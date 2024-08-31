@@ -6,7 +6,7 @@ export const SideDetails = ({site}: {site: any}) => {
   const posts = site?.posts
 
   return <>
-    <ArticlesBtn siteId={site?.id} />
+    <ArticlesBtn siteId={site?.id} siteUrl={site?.url} />
     <div className="w-full mt-5 border border-gray-200 rounded-md p-3 sm:p-5">
       <h2 className="text-xl sm:text-2xl font-extrabold">Articles</h2>
       <p className="text-sm sm:text-md text-gray-500 font-semibold mt-1 mb-4">Manage your articles in a simple and intuitive interface.</p>
