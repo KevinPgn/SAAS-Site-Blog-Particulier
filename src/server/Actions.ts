@@ -341,7 +341,7 @@ export const editPost = authenticatedAction
         published,
       },
     });
-
+    
     revalidatePath(`/profile/dashboard/${siteId}`);
     redirect(`/profile/dashboard/${siteId}`);
   });

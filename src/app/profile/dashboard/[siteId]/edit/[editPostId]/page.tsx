@@ -21,7 +21,7 @@ const EditPostPage = async ({ params }: EditPostPageProps) => {
 
     return (
     <section className='w-full overflow-auto p-7 flex-1'>
-        <EditFormPost post={post} />
+        <EditFormPost siteId={siteId} post={post} />
    </section>
   )
 }
