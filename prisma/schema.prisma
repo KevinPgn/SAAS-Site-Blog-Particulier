@@ -19,7 +19,8 @@ model User {
   sites         Site[]
   posts         Post[]
   comments      Comments[]
- 
+  subscriptions Subscription[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -76,6 +77,7 @@ model Site {
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   
   posts     Post[]
+  subscriptions Subscription[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -111,6 +113,19 @@ model Comments{
 
   authorId  String
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// User can subscribe to a site and receive notifications when a new post is created
+model Subscription {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  siteId    String
+  site      Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

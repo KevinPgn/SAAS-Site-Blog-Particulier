@@ -114,6 +114,18 @@ model Comments{
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
+
+model Subscription {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  siteId    String
+  site      Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
 */
 
 export const createNewSite = authenticatedAction
@@ -349,6 +361,22 @@ export const editPost = authenticatedAction
       },
     });
     
+    revalidatePath(`/profile/dashboard/${siteId}`);
+    redirect(`/profile/dashboard/${siteId}`);
+  });
+
+export const subscribeToSite = authenticatedAction
+  .schema(z.object({
+    siteId: z.string(),
+  }))
+  .action(async ({ parsedInput: { siteId }, ctx: { userId } }) => {
+    await prisma.subscription.create({
+      data: {
+        userId,
+        siteId,
+      },
+    });
+
     revalidatePath(`/profile/dashboard/${siteId}`);
     redirect(`/profile/dashboard/${siteId}`);
   });

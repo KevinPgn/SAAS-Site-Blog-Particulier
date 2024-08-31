@@ -18,6 +18,7 @@ const SiteUrlPage = async ({ params }: SiteUrlPageProps) => {
     select: {
         url: true,
         name: true,
+        id: true,
         posts: {
             where: {
                 published: true

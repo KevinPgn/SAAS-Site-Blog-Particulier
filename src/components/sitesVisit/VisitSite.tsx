@@ -1,11 +1,15 @@
-import { Button } from "../ui/button"
 import { ReadMore } from "./ReadMore"
+import { SubscribeToTheSite } from "./SubscribeToTheSite"
 
 export const VisitSite = ({ site }: { site: any }) => {
+  console.log(site)
   return <>
-    <div className="flex items-center justify-center gap-3">
+    <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
         <img src="/logo.svg" alt="logo" className="w-10 h-10" />
         <span className="text-2xl font-bold">{site.name}</span>
+        </div>
+        <SubscribeToTheSite siteId={site.id} />
     </div>
 
     <div className="flex items-start justify-center gap-5 flex-wrap mt-10">
