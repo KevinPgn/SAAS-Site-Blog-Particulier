@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { UserProps } from "@/lib/types"
+import Stripe from 'stripe';
 /*
 model User {
   id            String          @id @default(cuid())
@@ -450,3 +451,5 @@ export const getAllPostsByAuthor = authenticatedAction
 
     return posts;
   });
+
+// stripe

@@ -20,6 +20,10 @@ model User {
   posts         Post[]
   comments      Comments[]
   subscriptions Subscription[]
+
+  isActive Boolean @default(false)
+  subscriptionId String?
+  stripeCustomerId String? @unique
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
