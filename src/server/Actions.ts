@@ -405,3 +405,24 @@ export const deleteSite = authenticatedAction
   revalidatePath(`/profile/dashboard`);
   redirect(`/profile/dashboard`);
  });
+
+export const getUserSubscribedSites = authenticatedAction
+  .schema(z.object({}))  
+  .action(async ({ ctx: { userId } }) => {
+    const subscribedSites = await prisma.subscription.findMany({
+      where: { userId },
+      include: {
+        site: {
+          select: {
+            id: true,
+            name: true,
+            url: true,
+            description: true,
+            imageUrl: true,
+          }
+        },
+      },
+    });
+
+    return subscribedSites
+  });
