@@ -3,6 +3,7 @@ import React from 'react'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
 import { UserProps } from '@/lib/types'
+import { getAllPostsByAuthor } from '@/server/Actions'
 
 const DashboardPage = async () => {
   const session = await auth()
@@ -23,22 +24,11 @@ const DashboardPage = async () => {
       createdAt: 'desc'
     }
   })
-
-  const getRecentsPosts = await prisma.post.findMany({
-    where: {
-      site: {
-        authorId: userId
-      }
-    },
-    orderBy: {
-      createdAt: 'desc'
-    },
-    take: 5
-  })
+  const getRecentsPosts = await getAllPostsByAuthor({})
 
   return (
     <section className='w-full overflow-auto flex-1'>
-      <Dashboard sites={sites} getRecentsPosts={getRecentsPosts} />
+      <Dashboard sites={sites} getRecentsPosts={getRecentsPosts?.data} />
     </section>
   )
 }

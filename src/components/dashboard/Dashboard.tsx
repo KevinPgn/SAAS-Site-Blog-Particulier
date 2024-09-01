@@ -1,9 +1,10 @@
 import { BtnCreateSite } from "../sites/BtnCreateSite"
-import { Button } from "../ui/button"
-import { Plus } from "lucide-react"
+import { ReadMore } from "../sitesVisit/ReadMore"
 import { BtnViewArticleDashboard } from "./BtnViewArticleDashboard"
 
 export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPosts: any }) => {
+  console.log(getRecentsPosts)
+  
   if(sites.length === 0) return <main className="p-4 w-full">
     <div className="flex items-center justify-between px-2">
         <h2 className="text-2xl font-bold">Your Sites</h2>
@@ -40,32 +41,15 @@ export const Dashboard = ({ sites, getRecentsPosts }: { sites: any, getRecentsPo
     <h2 className="text-2xl font-bold mt-10 px-2">Recents Articles</h2>
 
     <div className="mt-4 flex max-xl:justify-center flex-wrap gap-5">
-        <div className="w-[400px] shadow-lg rounded-lg">
-            <div className="w-full h-[200px] rounded-t-lg bg-purple-800"></div>
-            <div className="p-4 py-6 px-7">
-                <h2 className="text-2xl font-bold">KevinPgn</h2>
-                <p className="text-gray-500 mt-2">Hey, I'm KevinPgn, I'm a web developer and I love to code</p>
-                <Button variant="blue" className="mt-4 w-full">View this article</Button>
+        {getRecentsPosts.map((post: any) => (
+            <div key={post.id} className="w-[400px] shadow-lg rounded-lg">
+                <img src={post.imageUrl} loading="lazy" alt={post.name} className="w-full h-[200px] object-cover rounded-t-lg" />
+                <div className="p-4 py-6 px-7">
+                    <h2 className="text-2xl font-bold">{post.title}</h2>
+                    <ReadMore siteUrl={post.site.url} postId={post.id} />
+                </div>
             </div>
-        </div>
-
-        <div className="w-[400px] shadow-lg rounded-lg">
-            <div className="w-full h-[200px] rounded-t-lg bg-blue-800"></div>
-            <div className="p-4 py-6 px-7">
-                <h2 className="text-2xl font-bold">KevinPgn</h2>
-                <p className="text-gray-500 mt-2">Hey, I'm KevinPgn, I'm a web developer and I love to code</p>
-                <Button variant="blue" className="mt-4 w-full">View this article</Button>
-            </div>
-        </div>
-
-        <div className="w-[400px] shadow-lg rounded-lg">
-            <div className="w-full h-[200px] rounded-t-lg bg-pink-800"></div>
-            <div className="p-4 py-6 px-7">
-                <h2 className="text-2xl font-bold">KevinPgn</h2>
-                <p className="text-gray-500 mt-2">Hey, I'm KevinPgn, I'm a web developer and I love to code</p>
-                <Button variant="blue" className="mt-4 w-full">View this article</Button>
-            </div>
-        </div>
+        ))}
     </div>
   </main>
 }

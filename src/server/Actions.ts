@@ -426,3 +426,27 @@ export const getUserSubscribedSites = authenticatedAction
 
     return subscribedSites
   });
+
+
+export const getAllPostsByAuthor = authenticatedAction
+  .schema(z.object({}))
+  .action(async ({ ctx: { userId } }) => {
+    const posts = await prisma.post.findMany({
+      where: { authorId: userId },
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        site: {
+          select: {
+            id: true,
+            name: true,
+            url: true,
+          }
+        }
+      },
+      take: 5,
+    });
+
+    return posts;
+  });
